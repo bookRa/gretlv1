@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- icon stuff -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="manifest" href="/icons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/icons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-119897689-1"></script>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-119897689-1', 'https://gretl.app');
+
+        // window.dataLayer = window.dataLayer || [];
+        // function gtag() { dataLayer.push(arguments); }
+        // gtag('js', new Date());
+
+        // gtag('config', 'UA-119897689-1');
+    </script>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <link rel="icon" type="image/ico" href="/favicon.ico"> -->
+    <title>Gretl V1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- FireBase and GeoFire -->
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/geofire/4.1.2/geofire.min.js"></script>
+    <!-- Jquery Mobile -->
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.0.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <!-- Orientation fixer -->
+    <script src="js/load-image.all.min.js"></script>
+    <!-- Custom UploadPreview widget -->
+    <script type="text/javascript" src="js/jquery.uploadPreview.js"></script>
+    <!-- My stylesheet -->
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+
+</head>
+
+<body>
+
+    <!-- World View Page -->
+    <div data-role="page" id="worldView" data-theme='a'>
+
+        <div data-role="header" data-position='fixed' id="worldViewHeader">
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <h3 class="pageTitle" id="worldViewTitle">World View</h3>
+                </div>
+                <div class="ui-block-b userNameAndPic">
+                    <div class="namePicContainer">
+                        <span class="userFirstName">USER</span>
+                        <a href="#acctMenu" data-rel="popup" data-position-to="#worldVThumb" data-transition="pop">
+                            <img id="worldVThumb" class="userImg acctMenThumb" src="images/unknownUser.png" alt="">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div data-role="navbar">
+                <ul>
+                    <li>
+                        <a href="#worldView">World View</a>
+                    </li>
+                    <li>
+                        <a href="#myCrumbs">My Crumbs</a>
+                    </li>
+                    <li>
+                        <a href="#geoDM">Geo- DM</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="map" data-position="fixed"></div>
+            <p id="worldViewAlert" style="color: red"></p>
+        </div>
+
+
+        <div data-role="main" class="ui-content">
+            <div id="listContainer">
+                <ul class="listview" data-inset="true" id="currentCrumbs"></ul>
+            </div>
+            <!-- View Crumb Details Popup -->
+            <div data-role="popup" id="viewCrumb" class="ui-content" data-position-to="window">
+                <a href='#' data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-brn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div id="viewCrumbWrapper">
+                    <h2>Crumb Details:</h2>
+                    <hr>
+                    <img src="" alt="" id="crumbPhoto">
+                    <h5 id="crumbPoster"></h5>
+                    <p id="crumbCaption"></p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div data-role="footer" data-position='fixed' class="footer">
+            <a href="#postCrumb" data-rel="popup" data-position-to="window" data-transition="pop" class='postCrumbPopupBtn dialogPop ui-btn-icon-left'
+                role='button' data-icon='location'>Post A Crumb</a>
+        </div>
+
+    </div>
+    <!-- My Crumbs Page -->
+    <div data-role="page" id="myCrumbs" data-theme='a'>
+        <div data-role="header" data-position='fixed' id="myCrumbsHeader">
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <h3 class="pageTitle" id="myCrumbsTitle">My Crumbs</h3>
+                </div>
+                <div class="ui-block-b userNameAndPic">
+                    <div class="namePicContainer">
+                        <span class="userFirstName">USER</span>
+                        <a href="#acctMenu" data-rel="popup" data-position-to="#myCrumbThumb" data-transition="pop">
+                            <img id="myCrumbThumb" class="userImg" src="images/unknownUser.png" alt="">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <div data-role="navbar">
+                <ul>
+                    <li>
+                        <a href="#worldView">World View</a>
+                    </li>
+                    <li>
+                        <a href="#myCrumbs">My Crumbs</a>
+                    </li>
+                    <li>
+                        <a href="#geoDM">Geo- DM/ Under Contruction</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div data-role="main" class="ui-content">
+
+            <div id="miniProfile">
+                <img src="" alt="" id="profilePic">
+                <div id="changProf" data-role="collapsible" data-mini="true">
+                    <p id="profileChangeStatus"></p>
+                    <h4>Change your Profile?</h4>
+                    <label for='updateUsername' class="">Display Name</label>
+                    <input type="text" name="Updateusername" id="updateUsername">
+                    <div id="profilePicPreview">
+                        <label for='updateProfilePic' id="profilePicLabel">Change Profile Pic</label>
+                        <input type="file" name="updateProfilePic" id="updateProfilePic" accept="image/*">
+                    </div>
+                    <button id="updateProfileBtn" onclick="updateProfile()">Submit!</button>
+                </div>
+                <h3 id="userName"></h3>
+                <hr>
+            </div>
+            <ul data-role="listview" data-split-icon="delete" data-inset="true" id="myCrumbList">
+                <!-- <li>
+                <a href="">
+                    <img>
+                    <h2>title</h2>
+                    <p>caption or user</p>
+                    <p class="ui-li-aside">distance?</p>
+                </a>
+                </li> -->
+            </ul>
+
+            <div id="deleteCrumbConfirm" data-role="popup" class="ui-content">
+                <h3 class="ui-title">Delete this Crumb?</h3>
+                <p>Once you do, you can't un-delete</p>
+                <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-rel="back">Cancel</a>
+                <a id="confirmDelete" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-rel="back">Delete</a>
+
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" class="footer">
+            <a href="#postCrumb" data-rel="popup" data-position-to="window" data-transition="pop" class='postCrumbPopupBtn dialogPop ui-btn-icon-left'
+                role='button' data-icon='location'>Post A Crumb</a>
+        </div>
+    </div>
+
+    <!-- geoDM Page -->
+    <div data-role="page" id="geoDM" data-them='a'>
+        <div data-role="header" data-position='fixed' id="myCrumbsHeader">
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <h3 class="pageTitle" id="myCrumbsTitle">Geo- DM</h3>
+                </div>
+                <div class="ui-block-b userNameAndPic">
+                    <div class="namePicContainer">
+                        <span class="userFirstName">USER</span>
+                        <a href="#acctMenu" data-rel="popup" data-position-to="#geoDMThumb" data-transition="pop">
+                            <img id="geoDMThumb" class="userImg" src="images/unknownUser.png" alt="">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <div data-role="navbar">
+                <ul>
+                    <li>
+                        <a href="#worldView">World View</a>
+                    </li>
+                    <li>
+                        <a href="#myCrumbs">My Crumbs</a>
+                    </li>
+                    <li>
+                        <a href="#geoDM">Geo- DM/ Under Contruction</a>
+                    </li>
+                </ul>
+            </div>
+            <fieldset data-role='controlgroup' id="availableChatters" data-type="horizontal">
+                <legend>Users within 1000 ft: (Tap to Select)</legend>
+                <!-- <label for="USERID">Test Data</label>
+                    <input type="checkbox" name="availableChatters" value="USERID" id="USERID"> -->
+
+            </fieldset>
+        </div>
+        <div data-role="main" class="ui-content">
+            <!-- checkbox for available users -->
+
+            <ul data-role="listview" id="gDMHistory">
+
+                <li>
+                    <a href="#">
+                        <img src="images/muffin.png">
+                        <h2> Message </h2>
+                        <p> USERNAME </p>
+                        <p class="ui-li-aside"> HOW LONG AGO </p>
+
+            </ul>
+
+        </div>
+        <div data-role="footer" data-position="fixed" class="footer">
+            <label for="gDMTextInput" class="ui-hidden-accessible">Your Message:</label>
+            <input type="text" data-clear-btn="true" name="gDMTextInput" id="gDMTextInput" placeholder="Your Message:">
+            <button id="gDMSendMsg">Send</button>
+        </div>
+
+    </div>
+
+    <!-- Post Crumb Popup -->
+    <div data-role="popup" id="postCrumb" class="ui-content" data-theme="a">
+        <a href='#' data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-brn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+        <h1>Post a Crumb</h1>
+        <p id="geoErrorTag" style="color: red; display: none"></p>
+        <div id="image-preview">
+            <label for="image-upload" id="image-label">Choose Image</label>
+            <input type="file" accept="image/*" name="image-upload" id="image-upload"/>
+        </div>
+        <label for='caption' class="ui-hidden-accessible">Caption Here</label>
+        <input type="text" name="caption" id="caption" placeholder="Enter caption..">
+        <a href="#" id='postCrumbBtn' class="ui-btn ui-icon-location ui-btn-icon-top" data-rel="back">Post!</a>
+    </div>
+
+    <!-- Alert Popup -->
+    <div id="alertPopup" data-role='popup' data-theme="a">
+        <h3>Alert:</h3>
+        <p id="alertMsg"></p>
+    </div>
+
+    <!-- Menu/Signout Popup -->
+    <div id="acctMenu" data-role="popup" class="" data-theme="a">
+        <ul data-role="listview" data-inset="true">
+            <li>
+                <a href="login.html" id="signOutBtn" data-rel="back">Sign Out</a>
+            </li>
+        </ul>
+    </div>
+
+
+    <script src="js/map.js"></script>
+    <!-- <script src="js/media.js"></script> -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZOFFHEfDZYJADrSFXa_RD1oe7aKLcayo&callback=initMap&libraries=geometry"
+        async defer></script>
+    <script src="js/main.js"></script>
+    <script src="js/myCrumbs.js"></script>
+    <script src="js/geoDM.js"></script>
+
+    <!-- https://stackoverflow.com/questions/20872243/jquery-mobile-google-universal-analytics -->
+    <script>
+        $(document).on('pageshow', '[data-role=page], [data-role=dialog]', function (event, ui) {
+            try {
+                if ($.mobile.activePage.attr("data-url")) {
+                    ga('send', 'pageview', $.mobile.activePage.attr("data-url")); // remove quotes
+                } else {
+                    ga('send', 'pageview');
+                }
+            } catch (err) { }
+        });
+    </script>
+</body>
+
+</html>
