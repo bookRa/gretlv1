@@ -44,12 +44,12 @@ $(document).ready(() => {
 
   // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyD6dLf9BkxgHhQbJ43z3O9V9-seJ3aN8y0",
-    authDomain: "gretlv1-28308.firebaseapp.com",
-    databaseURL: "https://gretlv1-28308.firebaseio.com",
-    projectId: "gretlv1-28308",
-    storageBucket: "gretlv1-28308.appspot.com",
-    messagingSenderId: "882287762635"
+    apiKey: "**MY INFO**",
+    authDomain: "**MY INFO**",
+    databaseURL: "**MY INFO**",
+    projectId: "**MY INFO**",
+    storageBucket: "**MY INFO**",
+    messagingSenderId: "**MY INFO**"
   };
 
   firebase.initializeApp(config);
